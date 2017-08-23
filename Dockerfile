@@ -12,7 +12,7 @@ RUN echo "source /home/circleci/google-cloud-sdk/completion.bash.inc" >> /home/c
     echo "source /home/circleci/google-cloud-sdk/path.bash.inc" >> /home/circleci/.bashrc
 
 #install custom gcloud sdk components
-RUN exec bash && gcloud --quiet components install kubectl beta docker-credential-gcr
+RUN bash -c "source /home/circleci/google-cloud-sdk/path.bash.inc && gcloud --quiet components install kubectl beta docker-credential-gcr"
 
 #install php modules
 RUN sudo apt-get install -y libpng-dev libmcrypt-dev && \
@@ -28,6 +28,6 @@ RUN rm -rf ~/.nvm && \
 RUN echo "source /home/circleci/.nvm/nvm.sh" >> /home/circleci/.bashrc
 
 #install gulp, bower
-RUN exec bash && npm install --global gulp-cli && npm install --global bower
+RUN bash -c "source ~/.nvm/nvm.sh && npm install --global gulp-cli && npm install --global bower"
 
 RUN sudo apt-get remove -y libpng-dev libmcrypt-dev && sudo apt-get clean && sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
