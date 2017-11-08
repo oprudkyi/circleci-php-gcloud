@@ -16,7 +16,7 @@ RUN bash -c "source /home/circleci/google-cloud-sdk/path.bash.inc && gcloud --qu
 
 #install php modules
 RUN sudo apt-get install -y libpng-dev libmcrypt-dev && \
-    sudo docker-php-ext-install gd bcmath mcrypt pdo pdo_mysql
+    sudo docker-php-ext-install gd bcmath mcrypt pdo pdo_mysql soap
 
 #install node
 RUN rm -rf ~/.nvm && \
