@@ -15,7 +15,7 @@ RUN echo "source /home/circleci/google-cloud-sdk/completion.bash.inc" >> /home/c
 RUN bash -c "source /home/circleci/google-cloud-sdk/path.bash.inc && gcloud --quiet components install kubectl beta docker-credential-gcr"
 
 #install php modules
-RUN sudo apt-get update -y && apt-get install -y libpng-dev libmcrypt-dev libxml2-dev && \
+RUN sudo apt-get update -y && sudo apt-get install -y libpng-dev libmcrypt-dev libxml2-dev && \
     sudo docker-php-ext-install gd bcmath mcrypt pdo pdo_mysql soap
 
 #install node
