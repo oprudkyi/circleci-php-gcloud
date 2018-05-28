@@ -15,8 +15,12 @@ RUN echo "source /home/circleci/google-cloud-sdk/completion.bash.inc" >> /home/c
 RUN bash -c "source /home/circleci/google-cloud-sdk/path.bash.inc && gcloud --quiet components install kubectl beta docker-credential-gcr"
 
 #install php modules
-RUN sudo apt-get update -y && sudo apt-get install -y libpng-dev libmcrypt-dev libxml2-dev && \
+RUN sudo apt-get update -y && sudo apt-get install -y libpng-dev libmcrypt-dev libxml2-dev libmagickwand-dev && \
     sudo docker-php-ext-install gd bcmath mcrypt pdo pdo_mysql soap exif
+
+#install imagick
+RUN sudo bash -c "yes '' | sudo pecl install imagick || true" && \
+    sudo docker-php-ext-enable imagick
 
 #install node
 RUN rm -rf ~/.nvm && \
