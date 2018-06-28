@@ -1,7 +1,7 @@
 FROM circleci/php:7.1.8-browsers
 
 ARG NODE_VERSION
-ENV NODE_VERSION ${NODE_VERSION:-6}
+ENV NODE_VERSION ${NODE_VERSION:-8}
 
 #install gcloud sdk with all stuff
 RUN export CLOUDSDK_CORE_DISABLE_PROMPTS=1 && \
