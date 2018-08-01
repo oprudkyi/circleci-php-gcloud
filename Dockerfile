@@ -36,7 +36,13 @@ RUN rm -rf ~/.nvm && \
 #automatic include of npm
 RUN echo "source /home/circleci/.nvm/nvm.sh" >> /home/circleci/.bashrc
 
-#install gulp, bower
-RUN bash -c "source ~/.nvm/nvm.sh && npm install --global gulp-cli && npm install --global bower"
+#install gulp
+RUN bash -c "source ~/.nvm/nvm.sh && npm install --global gulp-cli"
+
+#install bower
+RUN bash -c "source ~/.nvm/nvm.sh && npm install --global bower"
+
+#install yarn
+RUN bash -c "source ~/.nvm/nvm.sh && npm install --global yarn"
 
 RUN sudo apt-get remove -y libpng-dev libmcrypt-dev && sudo apt-get clean && sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
