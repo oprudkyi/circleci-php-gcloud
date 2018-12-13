@@ -1,7 +1,7 @@
-FROM circleci/php:7.1.8-browsers
+FROM circleci/php:7.1.25-stretch-browsers
 
 ARG NODE_VERSION
-ENV NODE_VERSION ${NODE_VERSION:-8}
+ENV NODE_VERSION ${NODE_VERSION:-10}
 
 #install gcloud sdk with all stuff
 RUN export CLOUDSDK_CORE_DISABLE_PROMPTS=1 && \
@@ -14,8 +14,8 @@ RUN echo "source /home/circleci/google-cloud-sdk/completion.bash.inc" >> /home/c
 #install custom gcloud sdk components
 RUN bash -c "source /home/circleci/google-cloud-sdk/path.bash.inc && gcloud --quiet components install kubectl beta docker-credential-gcr"
 
-#manually bump kubectl to 1.10
-RUN sudo wget https://storage.googleapis.com/kubernetes-release/release/v1.10.4/bin/linux/amd64/kubectl && \
+#manually bump kubectl to 1.13
+RUN sudo wget https://storage.googleapis.com/kubernetes-release/release/v1.13.1/bin/linux/amd64/kubectl && \
     sudo mv -f ./kubectl /home/circleci/google-cloud-sdk/bin/kubectl && \
     sudo chmod +x /home/circleci/google-cloud-sdk/bin/kubectl
 
