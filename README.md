@@ -3,5 +3,5 @@ Contains some php packages, google cloud sdk include gsutil, kubectl, gcloud cli
 
 #Update gcloud sdk and other utils
 
-Google Cloud SDK 208.0.1
-kubectl v1.10.4
+Google Cloud SDK 235.0.0
+kubectl v1.13.1

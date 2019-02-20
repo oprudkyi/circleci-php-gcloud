@@ -23,9 +23,14 @@ RUN sudo wget https://storage.googleapis.com/kubernetes-release/release/v1.13.1/
 RUN sudo apt-get update -y && sudo apt-get install -y libpng-dev libmcrypt-dev libxml2-dev libmagickwand-dev && \
     sudo docker-php-ext-install gd bcmath mcrypt pdo pdo_mysql soap exif
 
-#install imagick
-RUN sudo bash -c "yes '' | sudo pecl install imagick || true" && \
-    sudo docker-php-ext-enable imagick
+RUN sudo pecl channel-update pecl.php.net
+
+RUN sudo bash -c "yes '' | sudo pecl install imagick || true"
+RUN sudo bash -c "yes '' | sudo pecl install grpc || true"
+RUN sudo bash -c "yes '' | sudo pecl install protobuf || true"
+
+#enable pecl extensions
+RUN sudo docker-php-ext-enable imagick grpc protobuf
 
 #install node
 RUN rm -rf ~/.nvm && \
@@ -45,4 +50,5 @@ RUN bash -c "source ~/.nvm/nvm.sh && npm install --global bower"
 #install yarn
 RUN bash -c "source ~/.nvm/nvm.sh && npm install --global yarn"
 
-RUN sudo apt-get remove -y libpng-dev libmcrypt-dev && sudo apt-get clean && sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+#minimize build
+RUN sudo apt-get remove -y libpng-dev libmcrypt-dev && sudo apt-get clean && sudo apt autoremove && sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
