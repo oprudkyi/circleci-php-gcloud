@@ -21,7 +21,7 @@ RUN sudo wget https://storage.googleapis.com/kubernetes-release/release/v1.13.1/
 
 #install php modules
 RUN sudo apt-get update -y && sudo apt-get install -y libpng-dev libmcrypt-dev libxml2-dev libmagickwand-dev && \
-    sudo docker-php-ext-install gd bcmath mcrypt pdo pdo_mysql soap exif
+    sudo docker-php-ext-install gd bcmath mcrypt pdo pdo_mysql soap exif zip
 
 RUN sudo pecl channel-update pecl.php.net
 
