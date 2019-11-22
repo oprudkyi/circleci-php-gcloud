@@ -1,4 +1,4 @@
-FROM circleci/php:7.1.25-stretch-browsers
+FROM circleci/php:7.3-zts-stretch-browsers
 
 ARG NODE_VERSION
 ENV NODE_VERSION ${NODE_VERSION:-10}
@@ -14,23 +14,19 @@ RUN echo "source /home/circleci/google-cloud-sdk/completion.bash.inc" >> /home/c
 #install custom gcloud sdk components
 RUN bash -c "source /home/circleci/google-cloud-sdk/path.bash.inc && gcloud --quiet components install kubectl beta docker-credential-gcr"
 
-#manually bump kubectl to 1.13
-RUN sudo wget https://storage.googleapis.com/kubernetes-release/release/v1.13.1/bin/linux/amd64/kubectl && \
-    sudo mv -f ./kubectl /home/circleci/google-cloud-sdk/bin/kubectl && \
-    sudo chmod +x /home/circleci/google-cloud-sdk/bin/kubectl
-
 #install php modules
 RUN sudo apt-get update -y && sudo apt-get install -y libpng-dev libmcrypt-dev libxml2-dev libmagickwand-dev libmagickwand-6.q16-3 libmcrypt4 && \
-    sudo docker-php-ext-install gd bcmath mcrypt pdo pdo_mysql soap exif zip intl
+    sudo docker-php-ext-install gd bcmath pdo pdo_mysql soap exif zip intl
 
 RUN sudo pecl channel-update pecl.php.net
 
+RUN sudo bash -c "yes '' | sudo pecl install mcrypt || true"
 RUN sudo bash -c "yes '' | sudo pecl install imagick || true"
 RUN sudo bash -c "yes '' | sudo pecl install grpc || true"
 RUN sudo bash -c "yes '' | sudo pecl install protobuf || true"
 
 #enable pecl extensions
-RUN sudo docker-php-ext-enable imagick grpc protobuf
+RUN sudo docker-php-ext-enable imagick grpc protobuf mcrypt
 
 #install node
 RUN rm -rf ~/.nvm && \
