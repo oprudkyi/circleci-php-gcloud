@@ -1,7 +1,4 @@
-FROM circleci/php:7.3-zts-stretch-browsers
-
-ARG NODE_VERSION
-ENV NODE_VERSION ${NODE_VERSION:-10}
+FROM circleci/php:7.3.13-zts-buster-node AS build
 
 #install gcloud sdk with all stuff
 RUN export CLOUDSDK_CORE_DISABLE_PROMPTS=1 && \
@@ -28,23 +25,6 @@ RUN sudo bash -c "yes '' | sudo pecl install protobuf || true"
 #enable pecl extensions
 RUN sudo docker-php-ext-enable imagick grpc protobuf mcrypt
 
-#install node
-RUN rm -rf ~/.nvm && \
-    git clone https://github.com/creationix/nvm.git ~/.nvm && \
-    (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && \
-    bash -c "source ~/.nvm/nvm.sh && nvm install $NODE_VERSION"
-
-#automatic include of npm
-RUN echo "source /home/circleci/.nvm/nvm.sh" >> /home/circleci/.bashrc
-
-#install gulp
-RUN bash -c "source ~/.nvm/nvm.sh && npm install --global gulp-cli"
-
-#install bower
-RUN bash -c "source ~/.nvm/nvm.sh && npm install --global bower"
-
-#install yarn
-RUN bash -c "source ~/.nvm/nvm.sh && npm install --global yarn"
 
 #minimize build
 RUN sudo apt-get remove -y libpng-dev libmcrypt-dev && sudo apt-get clean && sudo apt autoremove && sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
