@@ -25,6 +25,13 @@ RUN sudo bash -c "yes '' | sudo pecl install protobuf || true"
 #enable pecl extensions
 RUN sudo docker-php-ext-enable imagick grpc protobuf mcrypt
 
+RUN sudo apt-get remove -y '.*-dev$' && \
+    sudo apt-get remove -y '.*-headers$' && \
+    sudo apt-get remove -y '.*-devel$' && \
+    sudo apt-get clean && \
+    sudo apt autoremove && \
+    sudo rm -rf /tmp/* /var/tmp/*
 
-#minimize build
-RUN sudo apt-get remove -y libpng-dev libmcrypt-dev && sudo apt-get clean && sudo apt autoremove && sudo rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# This results in a single layer image
+FROM scratch
+COPY --from=build / /
