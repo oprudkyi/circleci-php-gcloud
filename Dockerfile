@@ -11,9 +11,20 @@ RUN echo "source /home/circleci/google-cloud-sdk/completion.bash.inc" >> /home/c
 #install custom gcloud sdk components
 RUN bash -c "source /home/circleci/google-cloud-sdk/path.bash.inc && gcloud --quiet components install kubectl beta docker-credential-gcr"
 
+RUN sudo apt-get update -y && \
+    sudo apt-get install -y \
+        libzip4 \
+        libpng-dev \
+        libmcrypt-dev \
+        libxml2-dev \
+        libmagickwand-6.q16-6 \
+        libmagickwand-dev \
+        libmcrypt4 \
+        gettext-base \
+        vim
+
 #install php modules
-RUN sudo apt-get update -y && sudo apt-get install -y libpng-dev libmcrypt-dev libxml2-dev libmagickwand-dev libmagickwand-6.q16-3 libmcrypt4 && \
-    sudo docker-php-ext-install gd bcmath pdo pdo_mysql soap exif zip intl
+RUN sudo docker-php-ext-install gd bcmath pdo pdo_mysql soap exif zip intl
 
 RUN sudo pecl channel-update pecl.php.net
 
